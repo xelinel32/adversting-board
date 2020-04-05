@@ -18,7 +18,11 @@
         @click="drawer = true"
         class="hidden-md-and-up"
       ></v-app-bar-nav-icon>
-      <v-toolbar-title>Adversting board</v-toolbar-title>
+      <v-toolbar-title
+        ><router-link to="/" tag="span" class="pointer"
+          >Adversting board</router-link
+        ></v-toolbar-title
+      >
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn
@@ -76,3 +80,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.pointer {
+  cursor: pointer;
+}
+</style>
