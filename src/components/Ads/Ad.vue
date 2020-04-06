@@ -1,8 +1,28 @@
 <template>
   <v-container>
     <v-layout row>
-      <v-flex md12>
-        <h1>Ad</h1>
+      <v-flex xs12>
+        <v-card>
+          <v-img
+            src="https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg"
+            height="300px"
+          >
+          </v-img>
+          <v-card-text>
+            <h1 class="text--primary mb-5">Lorem</h1>
+            <p>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quae
+              sequi quia dolores magni inventore. Molestias dolor nemo ipsam
+              quos, perferendis debitis blanditiis excepturi architecto in
+              similique eligendi nisi distinctio doloremque.
+            </p>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn class="primary" large tile text>Edit</v-btn>
+            <v-btn class="success" large>Buy</v-btn>
+          </v-card-actions>
+        </v-card>
       </v-flex>
     </v-layout>
   </v-container>
