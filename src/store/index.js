@@ -4,7 +4,6 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  modules: {},
   state: {
     ads: [
       {
@@ -27,11 +26,27 @@ export default new Vuex.Store({
         promo: true,
         imageSrc: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
         id: "746"
+      },
+      {
+        title: "Fourty ad",
+        description: "Hello i'm description",
+        promo: true,
+        imageSrc: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
+        id: "721"
       }
     ]
   },
-  mutation: {},
-  actions: {},
+  mutations: {
+    createAd(state, payload) {
+      state.ads.push(payload);
+    }
+  },
+  actions: {
+    createAd({ commit }, payload) {
+      payload.id = toString(Math.random());
+      commit("createAd", payload);
+    }
+  },
   getters: {
     ads(state) {
       return state.ads;
@@ -43,6 +58,11 @@ export default new Vuex.Store({
     },
     myAds(state) {
       return state.ads;
+    },
+    adById(state) {
+      return adId => {
+        return state.ads.find(ad => ad.id === adId);
+      };
     }
   } // get access to state
 });
