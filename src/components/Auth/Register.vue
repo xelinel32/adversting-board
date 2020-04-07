@@ -43,6 +43,7 @@
               dark
               large
               @click="onSubmit"
+              :loading="loading || loading"
               :disabled="!valid"
               >Create account</v-btn
             >
@@ -75,6 +76,11 @@ export default {
       ]
     };
   },
+  computed: {
+    loading() {
+      return this.$store.getters.loading;
+    }
+  },
   methods: {
     onSubmit() {
       if (this.$refs.form.validate()) {
@@ -82,7 +88,12 @@ export default {
           email: this.email,
           password: this.password
         };
-        console.log(user);
+        this.$store
+          .dispatch("registerUser", user)
+          .then(() => {
+            this.$router.push("/");
+          })
+          .catch(err => console.log(err));
       }
     }
   }
