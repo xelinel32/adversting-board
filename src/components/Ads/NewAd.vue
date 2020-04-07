@@ -38,7 +38,11 @@
     </v-layout>
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
-        <v-switch color="orange" v-model="promo" label="Add to promo"></v-switch>
+        <v-switch
+          color="orange"
+          v-model="promo"
+          label="Add to promo"
+        ></v-switch>
       </v-flex>
     </v-layout>
     <v-layout row>
@@ -68,9 +72,10 @@ export default {
         const ad = {
           title: this.title,
           description: this.description,
-          promo: this.promo
+          promo: this.promo,
+          imageSrc: "https://blog.allo.ua/wp-content/uploads/GitHub-1.jpg"
         };
-        console.log(ad);
+        this.$store.dispatch('createAd', ad);
       }
     }
   }
