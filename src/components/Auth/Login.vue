@@ -29,7 +29,15 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="orange" dark large @click="onSubmit" :disabled="!valid">Login</v-btn>
+            <v-btn
+              color="orange"
+              dark
+              large
+              @click="onSubmit"
+              :loading="loading"
+              :disabled="!valid || loading"
+              >Login</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-col>
@@ -54,6 +62,11 @@ export default {
       ]
     };
   },
+  computed: {
+    loading() {
+      return this.$store.getters.loading;
+    }
+  },
   methods: {
     onSubmit() {
       if (this.$refs.form.validate()) {
@@ -61,7 +74,12 @@ export default {
           email: this.email,
           password: this.password
         };
-        console.log(user);
+        this.$store
+          .dispatch("loginUser", user)
+          .then(() => {
+            this.$router.push("/");
+          })
+          .catch(err => {});
       }
     }
   }
