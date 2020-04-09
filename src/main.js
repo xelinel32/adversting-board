@@ -34,5 +34,10 @@ new Vue({
       storageBucket: "ad-board-5c691.appspot.com",
       messagingSenderId: "654246470341"
     });
+    fb.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.$store.dispatch("autoLoginUser", user);
+      }
+    });
   }
 });
