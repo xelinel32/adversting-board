@@ -25,15 +25,22 @@
     </v-layout>
     <v-layout row mb-3 mt-3>
       <v-flex xs12 sm6 offset-sm3>
-        <v-btn color="warning">
+        <v-btn color="warning" @click="triggerUpload">
           Upload
           <v-icon right dark>mdi-cloud-upload</v-icon>
         </v-btn>
+        <input
+          ref="fileInput"
+          type="file"
+          style="display:none;"
+          accept="image/*"
+          @change="onFileChange"
+        />
       </v-flex>
     </v-layout>
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
-        <img src="" alt="" height="100" />
+        <img :src="imageSrc" alt="" height="100" v-if="imageSrc" />
       </v-flex>
     </v-layout>
     <v-layout row>
@@ -50,7 +57,7 @@
         <v-spacer></v-spacer>
         <v-btn
           :loading="loading"
-          :disabled="!valid || loading"
+          :disabled="!valid || !image || loading"
           class="success"
           @click="createAd"
           >Create Ad</v-btn
@@ -67,7 +74,9 @@ export default {
       title: "",
       description: "",
       promo: false,
-      valid: false
+      valid: false,
+      image: null,
+      imageSrc: ""
     };
   },
   computed: {
@@ -77,12 +86,12 @@ export default {
   },
   methods: {
     createAd() {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.form.validate() && this.image) {
         const ad = {
           title: this.title,
           description: this.description,
           promo: this.promo,
-          imageSrc: "https://blog.allo.ua/wp-content/uploads/GitHub-1.jpg"
+          image: this.image
         };
         this.$store
           .dispatch("createAd", ad)
@@ -91,6 +100,19 @@ export default {
           })
           .catch(() => {});
       }
+    },
+    triggerUpload() {
+      this.$refs.fileInput.click();
+    },
+    onFileChange(event) {
+      const file = event.target.files[0];
+
+      const reader = new FileReader();
+      reader.onload = e => {
+        this.imageSrc = reader.result;
+      };
+      reader.readAsDataURL(file);
+      this.image = file;
     }
   }
 };
