@@ -1,7 +1,16 @@
 <template>
   <v-container>
     <v-layout row>
-      <v-flex xs12 sm6 offset-sm3>
+      <v-flex xs12 sm6 offset-sm3 class="text-center mt-5" v-if="loading">
+        <h1 class="text--primary mb-5">You not have ads</h1>
+        <v-progress-circular
+          :size="50"
+          :width="4"
+          color="orange"
+          indeterminate
+        ></v-progress-circular>
+      </v-flex>
+      <v-flex xs12 sm6 offset-sm3 v-else-if="!loading && orders.length !== 0">
         <h1 class="text--secondary" mb-5>Orders</h1>
         <v-list subheader two-line elevation="6">
           <v-list-item v-for="order in orders" :key="order.id">
@@ -22,29 +31,35 @@
           </v-list-item>
         </v-list>
       </v-flex>
+      <v-flex xs12 sm6 offset-sm3 class="text-center" v-else>
+        <h1 class="text--primary mb-5">You not have orders</h1>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      orders: [
-        {
-          id: "2132",
-          name: "Artemy",
-          phone: "380935039351",
-          adId: "123",
-          done: false
-        }
-      ]
-    };
+  computed: {
+    loading() {
+      this.$store.getters.loading;
+    },
+    orders() {
+      return this.$store.getters.orders;
+    }
   },
   methods: {
     markDone() {
-      order.done = true;
+      this.$store
+        .dispatch("markOrderDone", order.id)
+        .then(() => {
+          order.done = true;
+        })
+        .catch(() => {});
     }
+  },
+  created() {
+    this.$store.dispatch("fetchOrders");
   }
 };
 </script>
