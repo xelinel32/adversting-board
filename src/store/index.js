@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import user from "./user";
 import shared from "./shared";
+import orders from "./orders";
 import * as fb from "firebase";
 
 class Ad {
@@ -27,7 +28,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   modules: {
     user,
-    shared
+    shared,
+    orders
   },
   state: {
     ads: []
@@ -142,13 +144,15 @@ export default new Vuex.Store({
           .update({
             title,
             description
+          })
+          .then(() => {
+            commit("updateAd", {
+              title,
+              description,
+              id
+            });
+            commit("setLoading", true);
           });
-        commit("updateAd", {
-          title,
-          description,
-          id
-        });
-        commit("setLoading", true);
       } catch (error) {
         commit("setError", error.message);
         commit("setLoading", false);
@@ -165,8 +169,10 @@ export default new Vuex.Store({
         return ad.promo;
       });
     },
-    myAds(state) {
-      return state.ads;
+    myAds(state, getters) {
+      return state.ads.filter(ad => {
+        return ad.ownerId === getters.user.id;
+      });
     },
     adById(state) {
       return adId => {
