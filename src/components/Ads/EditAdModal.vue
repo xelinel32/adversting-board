@@ -26,7 +26,6 @@
                 label="Description"
                 name="description"
                 type="text"
-                multi-line
                 v-model="editedDescription"
               />
             </v-card-text>
