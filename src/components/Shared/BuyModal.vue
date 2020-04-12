@@ -84,7 +84,9 @@ export default {
             ownerId: this.ad.ownerId
           })
           .finally(() => {
-            (this.name = ""), (this.phone = ""), (this.localLoading = false);
+            this.name = "",
+            this.phone = "",
+            this.localLoading = false,
             this.modal = false;
           });
       }

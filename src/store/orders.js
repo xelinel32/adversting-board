@@ -24,11 +24,11 @@ export default {
       const order = new Order(name, phone, adId);
       commit("clearError");
       try {
-      } catch (error) {
         await fb
           .database()
           .ref(`/users/${ownerId}/orders`)
           .push(order);
+      } catch (error) {
         commit("setError", error.message);
         throw error;
       }
